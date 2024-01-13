@@ -1,5 +1,8 @@
 #!/bin/sh
 
+DOWNLOAD="wget --no-verbose"
+# DOWNLOAD="curl -# -L -O"
+
 export CC=cc
 export REALCC=${CC}
 export CPPFLAGS="-P"
@@ -24,7 +27,7 @@ LOG_LINES=50
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 # sigh, in linux some use "x86_64", "aarch64"
-# and others "amd64" or "arm64" the upx developers 
+# and others "amd64" or "arm64" the upx developers
 case "$(uname -m)" in
     "aarch64")
         ARCH="arm64"
@@ -236,7 +239,7 @@ LOG_FILE="musl-${MUSL_VERSION}.log"
 cd ${TMUX_STATIC_HOME}/src || exit 1
 if [ ! -f ${MUSL_ARCHIVE} ]; then
     printf "Downloading..."
-    wget --no-verbose ${MUSL_URL}/${MUSL_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
+    ${DOWNLOAD} ${MUSL_URL}/${MUSL_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
     checkResult $?
 fi
 
@@ -276,7 +279,7 @@ LOG_FILE="libevent-${LIBEVENT_VERSION}-stable.log"
 cd ${TMUX_STATIC_HOME}/src || exit 1
 if [ ! -f ${LIBEVENT_ARCHIVE} ]; then
     printf "Downloading..."
-    wget --no-verbose ${LIBEVENT_URL}/${LIBEVENT_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
+    ${DOWNLOAD} ${LIBEVENT_URL}/${LIBEVENT_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
     checkResult $?
 fi
 
@@ -316,7 +319,7 @@ LOG_FILE="ncurses-${NCURSES_VERSION}.log"
 cd ${TMUX_STATIC_HOME}/src || exit 1
 if [ ! -f ${NCURSES_ARCHIVE} ]; then
     printf "Downloading..."
-    wget --no-verbose ${NCURSES_URL}/${NCURSES_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
+    ${DOWNLOAD} ${NCURSES_URL}/${NCURSES_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
     checkResult $?
 fi
 
@@ -361,7 +364,7 @@ LOG_FILE="tmux-${TMUX_VERSION}.log"
 cd ${TMUX_STATIC_HOME}/src || exit 1
 if [ ! -f ${TMUX_ARCHIVE} ]; then
     printf "Downloading..."
-    wget --no-verbose ${TMUX_URL}/${TMUX_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
+    ${DOWNLOAD} ${TMUX_URL}/${TMUX_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
     checkResult $?
 fi
 
@@ -417,7 +420,7 @@ if [ -n "${USE_UPX}" ] && [ ${USE_UPX} = 1 ]; then
     cd ${TMUX_STATIC_HOME}/src || exit 1
     if [ ! -f ${UPX_ARCHIVE} ]; then
         printf "Downloading..."
-        wget --no-verbose ${UPX_URL}/${UPX_ARCHIVE} >> ${LOG_DIR}/${LOG_FILE} 2>&1
+        ${DOWNLOAD} ${UPX_URL}/${UPX_ARCHIVE} >> ${LOG_DIR}/${LOG_FILE} 2>&1
         checkResult $?
     fi
     tar xJf ${UPX_ARCHIVE}
